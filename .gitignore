@@ -1,0 +1,12 @@
+# Logs
+logs
+*.log
+yarn.*
+
+# Dependency directories
+node_modules/
+
+# TypeScript cache
+*.tsbuildinfo
+
+.DS_Store
