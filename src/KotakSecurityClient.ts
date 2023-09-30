@@ -1,13 +1,5 @@
+import IOption from './model/IOption.js';
 import Order from './model/Order.js';
-
-interface IOption {
-	userId: string;
-	password: string
-	appId: string;
-	consumerKey: string;
-	secretKey: string;
-	accessCode: string;
-}
 
 class KotakSecurityClient {
 
