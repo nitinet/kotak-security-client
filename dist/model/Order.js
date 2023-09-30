@@ -1,31 +1,23 @@
-import ValidityType from './types/ValidityType.js';
-import VarietyType from './types/VarietyType.js';
+import ValidityType from '../types/ValidityType.js';
+import VarietyType from '../types/VarietyType.js';
 class Order {
-    constructor(instrumentToken, transactionType, quantity, price, validity, variety, disclosedQuantity, triggerPrice, tag) {
-        this.orderId = null;
-        this.instrumentToken = null;
-        this.transactionType = null;
-        this.quantity = null;
-        this.price = null;
-        this.validity = ValidityType.GFD;
-        this.variety = VarietyType.REGULAR;
-        this.disclosedQuantity = null;
-        this.triggerPrice = null;
-        this.tag = null;
+    orderId;
+    instrumentToken;
+    transactionType;
+    quantity;
+    price;
+    validity = ValidityType.GFD;
+    variety = VarietyType.REGULAR;
+    disclosedQuantity;
+    triggerPrice;
+    tag;
+    constructor(orderId, instrumentToken, transactionType, quantity, price, tag) {
+        this.orderId = orderId;
         this.instrumentToken = instrumentToken;
         this.transactionType = transactionType;
-        this.quantity = quantity;
-        this.price = price;
-        if (validity)
-            this.validity = validity;
-        if (variety)
-            this.variety = variety;
-        if (disclosedQuantity)
-            this.disclosedQuantity = disclosedQuantity;
-        if (triggerPrice)
-            this.triggerPrice = triggerPrice;
-        if (tag)
-            this.tag = tag;
+        this.quantity = this.disclosedQuantity = quantity;
+        this.price = this.triggerPrice = price;
+        this.tag = tag;
     }
 }
 export default Order;

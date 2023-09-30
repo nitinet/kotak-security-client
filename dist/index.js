@@ -1,4 +1,5 @@
 import KotakSecurityClient from './KotakSecurityClient.js';
 import model from './model';
-export { KotakSecurityClient, model };
+import types from './types';
+export { KotakSecurityClient, model, types };
 //# sourceMappingURL=index.js.map
