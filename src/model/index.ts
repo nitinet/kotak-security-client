@@ -5,4 +5,5 @@ export default {
 	Order
 };
 
+export { Order };
 export { IOption };

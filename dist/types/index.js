@@ -6,4 +6,7 @@ export default {
     ValidityType,
     VarietyType
 };
+export { OrderType };
+export { ValidityType };
+export { VarietyType };
 //# sourceMappingURL=index.js.map

@@ -6,4 +6,8 @@ export default {
 	OrderType,
 	ValidityType,
 	VarietyType
-}
+};
+
+export { OrderType };
+export { ValidityType };
+export { VarietyType };
