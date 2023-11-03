@@ -1,4 +1,5 @@
 interface IOption {
+	baseUrl: string;
 	userId: string;
 	password: string
 	appId: string;
