@@ -1,13 +1,11 @@
-import ValidityType from '../types/ValidityType.js';
-import VarietyType from '../types/VarietyType.js';
 class Order {
     orderId;
     instrumentToken;
     transactionType;
     quantity;
     price;
-    validity = ValidityType.GFD;
-    variety = VarietyType.REGULAR;
+    validity = 'GFD';
+    variety = 'REGULAR';
     disclosedQuantity;
     triggerPrice;
     tag;

@@ -1,6 +1,4 @@
 import OrderType from '../types/OrderType.js';
-import ValidityType from '../types/ValidityType.js';
-import VarietyType from '../types/VarietyType.js';
 
 class Order {
 	orderId: string;
@@ -8,8 +6,8 @@ class Order {
 	transactionType: OrderType;
 	quantity: number;
 	price: number;
-	validity = ValidityType.GFD;
-	variety = VarietyType.REGULAR;
+	validity = 'GFD';
+	variety = 'REGULAR';
 	disclosedQuantity: number;
 	triggerPrice: number;
 	tag: string;
