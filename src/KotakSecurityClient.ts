@@ -1,9 +1,9 @@
 import IOption from './model/IOption.js';
 import Order from './model/Order.js';
 
-class KotakSecurityClient {
+const BaseUrl = 'https://tradeapi.kotaksecurities.com/apim';
 
-	baseUrl: string = 'https://tradeapi.kotaksecurities.com/apim';
+class KotakSecurityClient {
 
 	private userId: string;
 	private password: string
@@ -24,8 +24,6 @@ class KotakSecurityClient {
 		this.consumerKey = opts.consumerKey;
 		this.secretKey = opts.secretKey;
 		this.accessCode = opts.accessCode;
-
-		this.init();
 	}
 
 	async init() {
@@ -36,12 +34,12 @@ class KotakSecurityClient {
 			consumerKey: this.consumerKey,
 			Authorization: `Bearer ${this.secretKey}`
 		};
-		let initUrl = `${this.baseUrl}/session/1.0/session/init`;
+		let initUrl = `${BaseUrl}/session/1.0/session/init`;
 		await (await fetch(initUrl, {
 			headers: initHeaders
 		})).json();
 
-		let loginUrl = `${this.baseUrl}/session/1.0/session/login/userid`;
+		let loginUrl = `${BaseUrl}/session/1.0/session/login/userid`;
 		let loginBody = {
 			userid: this.userId,
 			password: this.password
@@ -52,12 +50,12 @@ class KotakSecurityClient {
 			headers: initHeaders
 		})).json();
 
-		let sessionTokenUrl = `${this.baseUrl}/session/1.0/session/2FA/accesscode`;
+		let sessionTokenUrl = `${BaseUrl}/session/1.0/session/2FA/accesscode`;
 		let sessionTokenBody = {
 			userid: this.userId,
 			accessCode: this.accessCode
 		};
-		let sessionTokenHeaders = Object.assign({}, initHeaders, { oneTimeToken: loginData.oneTimeToken });
+		let sessionTokenHeaders = { ...initHeaders, oneTimeToken: loginData.oneTimeToken };
 		let sessionTokenData = await (await fetch(sessionTokenUrl, {
 			method: 'POST',
 			body: JSON.stringify(sessionTokenBody),
@@ -71,7 +69,7 @@ class KotakSecurityClient {
 	}
 
 	async placeIntradayOrder(order: Order) {
-		let url = `${this.baseUrl}/orders/1.0/order/mis`;
+		let url = `${BaseUrl}/orders/1.0/order/mis`;
 		let body = JSON.stringify(order);
 
 		let data = await (await fetch(url, {
@@ -84,7 +82,7 @@ class KotakSecurityClient {
 	}
 
 	async placeNormalOrder(order: Order) {
-		let url = `${this.baseUrl}/orders/1.0/order/normal`;
+		let url = `${BaseUrl}/orders/1.0/order/normal`;
 		let body = JSON.stringify(order);
 
 		let data = await (await fetch(url, {
@@ -97,7 +95,7 @@ class KotakSecurityClient {
 	}
 
 	async modifyOrder(order: Order) {
-		let url = `${this.baseUrl}/orders/1.0/order`;
+		let url = `${BaseUrl}/orders/1.0/order`;
 
 		if (!order.orderId) throw new Error('Order Id not found');
 		let body = JSON.stringify(order);
@@ -112,7 +110,7 @@ class KotakSecurityClient {
 	}
 
 	async cancelOrder(orderId: string) {
-		let url = `${this.baseUrl}/orders/1.0/order/${orderId}`;
+		let url = `${BaseUrl}/orders/1.0/order/${orderId}`;
 		let data = await (await fetch(url, {
 			method: 'DELETE',
 			headers: this.sessionheader
@@ -122,7 +120,7 @@ class KotakSecurityClient {
 	}
 
 	async getTodaysPosition() {
-		let url = `${this.baseUrl}/positions/1.0/positions/todays`;
+		let url = `${BaseUrl}/positions/1.0/positions/todays`;
 		let data = await (await fetch(url, {
 			method: 'GET',
 			headers: this.sessionheader
@@ -132,7 +130,7 @@ class KotakSecurityClient {
 	}
 
 	async getOpenPosition() {
-		let url = `${this.baseUrl}/positions/1.0/positions/open`;
+		let url = `${BaseUrl}/positions/1.0/positions/open`;
 		let data = await (await fetch(url, {
 			method: 'GET',
 			headers: this.sessionheader
@@ -142,7 +140,7 @@ class KotakSecurityClient {
 	}
 
 	async getStocksPosition() {
-		let url = `${this.baseUrl}/positions/1.0/positions/stocks`;
+		let url = `${BaseUrl}/positions/1.0/positions/stocks`;
 		let data = await (await fetch(url, {
 			method: 'GET',
 			headers: this.sessionheader
@@ -152,7 +150,7 @@ class KotakSecurityClient {
 	}
 
 	async getOrders() {
-		let url = `${this.baseUrl}/reports/1.0/orders`;
+		let url = `${BaseUrl}/reports/1.0/orders`;
 		let data = await (await fetch(url, {
 			method: 'GET',
 			headers: this.sessionheader
@@ -162,7 +160,7 @@ class KotakSecurityClient {
 	}
 
 	async getOrderById(orderId: string) {
-		let url = `${this.baseUrl}/reports/1.0/orders/${orderId}`;
+		let url = `${BaseUrl}/reports/1.0/orders/${orderId}`;
 		let data = await (await fetch(url, {
 			method: 'GET',
 			headers: this.sessionheader
@@ -172,7 +170,7 @@ class KotakSecurityClient {
 	}
 
 	async getTrades() {
-		let url = `${this.baseUrl}/reports/1.0/trades`;
+		let url = `${BaseUrl}/reports/1.0/trades`;
 		let data = await (await fetch(url, {
 			method: 'GET',
 			headers: this.sessionheader
@@ -182,7 +180,7 @@ class KotakSecurityClient {
 	}
 
 	async getTradeById(orderId: string) {
-		let url = `${this.baseUrl}/reports/1.0/trades/${orderId}`;
+		let url = `${BaseUrl}/reports/1.0/trades/${orderId}`;
 		let data = await (await fetch(url, {
 			method: 'GET',
 			headers: this.sessionheader
@@ -192,7 +190,7 @@ class KotakSecurityClient {
 	}
 
 	async getQuote(instrumentId: string) {
-		let url = `${this.baseUrl}/quotes/v1.0/instruments/${instrumentId}`;
+		let url = `${BaseUrl}/quotes/v1.0/instruments/${instrumentId}`;
 		let data = await (await fetch(url, {
 			method: 'GET',
 			headers: this.sessionheader
@@ -202,7 +200,7 @@ class KotakSecurityClient {
 	}
 
 	async getQuoteLTP(instrumentId: string) {
-		let url = `${this.baseUrl}/quotes/v1.0/ltp/instruments/${instrumentId}`;
+		let url = `${BaseUrl}/quotes/v1.0/ltp/instruments/${instrumentId}`;
 		let data = await (await fetch(url, {
 			method: 'GET',
 			headers: this.sessionheader
@@ -212,7 +210,7 @@ class KotakSecurityClient {
 	}
 
 	async getQuoteDepth(instrumentId: string) {
-		let url = `${this.baseUrl}/quotes/v1.0/depth/instruments/${instrumentId}`;
+		let url = `${BaseUrl}/quotes/v1.0/depth/instruments/${instrumentId}`;
 		let data = await (await fetch(url, {
 			method: 'GET',
 			headers: this.sessionheader
@@ -222,7 +220,7 @@ class KotakSecurityClient {
 	}
 
 	async getQuoteOhlc(instrumentId: string) {
-		let url = `${this.baseUrl}/quotes/v1.0/ohlc/instruments/${instrumentId}`;
+		let url = `${BaseUrl}/quotes/v1.0/ohlc/instruments/${instrumentId}`;
 		let data = await (await fetch(url, {
 			method: 'GET',
 			headers: this.sessionheader
